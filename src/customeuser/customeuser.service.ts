@@ -9,7 +9,7 @@ export class CustomeuserService {
   }
 
   findAll() {
-    return `This action returns all customeuser`;
+    return `This action returns customuser all customeuser`;
   }
 
   findOne(id: number) {
