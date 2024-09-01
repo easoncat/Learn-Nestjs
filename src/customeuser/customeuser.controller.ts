@@ -1,9 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpCode, Redirect, Request, Response, Session } from '@nestjs/common';
 import { CustomeuserService } from './customeuser.service';
 import { UpdateCustomeuserDto } from './dto/update-customeuser.dto';
+import { CreateCustomeuserDto } from './dto/create-customeuser.dto';
 import * as svgCaptcha from 'svg-captcha'
 
-@Controller('customeuser')
+// 注意了，这里为什么要在接口前加一个api?
+// 因为前端的配置原因，baseUrl有一个api
+// 有其他的解决方案，例如 配置 craco，将api替换掉等
+// 这里为了简便，就直接加了一下 api :)
+@Controller('api/customeuser')
 export class CustomeuserController {
   constructor(private readonly customeuserService: CustomeuserService) {}
 
@@ -36,6 +41,16 @@ export class CustomeuserController {
         message: '验证码错误'
       }
     }
+  }
+
+  @Get()
+  getUserInfo(@Query() query: {keyword: string}){
+    return this.customeuserService.findAll(query);
+  } 
+
+  @Post()
+  create(@Body() createCustomeuserDto: CreateCustomeuserDto) {
+    return this.customeuserService.create(createCustomeuserDto);
   }
 
   @Patch(':id')
